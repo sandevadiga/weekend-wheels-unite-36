@@ -1,12 +1,19 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Clock, Users, Shield, Coffee, Fuel, ArrowLeft } from "lucide-react";
+import { MapPin, Clock, Users, Shield, Coffee, Fuel, ArrowLeft, Phone, CheckCircle, AlertCircle } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useToast } from "@/hooks/use-toast";
+import RideChat from "@/components/RideChat";
 
 const RideDetailsScreen = () => {
+  const { toast } = useToast();
+  const [isJoined, setIsJoined] = useState(false);
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+  
   const ride = {
     title: "Nandi Sunrise Sprint",
     date: "Sunday, January 7th",
@@ -44,6 +51,29 @@ const RideDetailsScreen = () => {
     }
   };
 
+  const handleJoinRide = () => {
+    setIsJoined(true);
+    toast({
+      title: "Ride joined successfully!",
+      description: "You're now part of this ride. Don't forget to check-in before the ride starts."
+    });
+  };
+
+  const handleCheckIn = () => {
+    setIsCheckedIn(true);
+    toast({
+      title: "Checked in successfully!",
+      description: "Organizer has been notified. Have a safe ride!"
+    });
+  };
+
+  const handleContactOrganizer = () => {
+    toast({
+      title: "Contact Organizer",
+      description: "Opening WhatsApp to message Rajesh Kumar..."
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -79,22 +109,61 @@ const RideDetailsScreen = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-orange-600">
-                  {ride.organizer.split(' ').map(n => n[0]).join('')}
-                </span>
-              </div>
-              <div>
-                <div className="font-medium">{ride.organizer}</div>
-                <div className="flex items-center gap-1 text-sm text-gray-500">
-                  <Shield className="w-3 h-3" />
-                  Verified Organizer
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-orange-600">
+                    {ride.organizer.split(' ').map(n => n[0]).join('')}
+                  </span>
+                </div>
+                <div>
+                  <div className="font-medium">{ride.organizer}</div>
+                  <div className="flex items-center gap-1 text-sm text-gray-500">
+                    <Shield className="w-3 h-3" />
+                    Verified Organizer
+                  </div>
                 </div>
               </div>
+              <Button variant="outline" size="sm" onClick={handleContactOrganizer}>
+                <Phone className="w-4 h-4 mr-2" />
+                Contact
+              </Button>
             </div>
           </CardContent>
         </Card>
+
+        {/* Check-in Status (if joined) */}
+        {isJoined && (
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {isCheckedIn ? (
+                    <>
+                      <CheckCircle className="w-5 h-5 text-green-500" />
+                      <span className="text-sm font-medium text-green-700">Checked In</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-5 h-5 text-orange-500" />
+                      <span className="text-sm font-medium text-orange-700">Check-in Required</span>
+                    </>
+                  )}
+                </div>
+                {!isCheckedIn && (
+                  <Button size="sm" onClick={handleCheckIn}>
+                    Check In
+                  </Button>
+                )}
+              </div>
+              {!isCheckedIn && (
+                <p className="text-xs text-gray-500 mt-1">
+                  Please check-in 30 minutes before the ride starts
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Route Info */}
         <Card>
@@ -158,6 +227,15 @@ const RideDetailsScreen = () => {
           </CardContent>
         </Card>
 
+        {/* Ride Chat */}
+        {isJoined && (
+          <RideChat 
+            rideId={ride.title}
+            isOrganizer={false}
+            currentUser="Alex Kumar"
+          />
+        )}
+
         {/* Riders */}
         <Card>
           <CardHeader>
@@ -185,8 +263,13 @@ const RideDetailsScreen = () => {
 
       {/* Bottom Action */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">
-        <Button className="w-full bg-orange-500 hover:bg-orange-600" size="lg">
-          Join This Ride
+        <Button 
+          className="w-full bg-orange-500 hover:bg-orange-600" 
+          size="lg"
+          onClick={handleJoinRide}
+          disabled={isJoined}
+        >
+          {isJoined ? "Joined ✓" : "Join This Ride"}
         </Button>
       </div>
     </div>

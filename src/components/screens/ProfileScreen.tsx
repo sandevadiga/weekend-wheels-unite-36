@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, MapPin, Award, Calendar, Edit3, Fire, Trophy, Target, Star, Zap } from "lucide-react";
+import { User, MapPin, Award, Calendar, Edit3, Fire, Trophy, Target, Star, Zap, Shield, Phone } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const ProfileScreen = () => {
@@ -18,7 +17,12 @@ const ProfileScreen = () => {
     email: "alex.kumar@email.com",
     bike: "Royal Enfield Classic 350",
     ridingLevel: "Intermediate",
-    location: "Bangalore, Karnataka"
+    location: "Bangalore, Karnataka",
+    emergencyContact: {
+      name: "Priya Kumar",
+      phone: "+91 98765 43211",
+      relation: "Spouse"
+    }
   });
 
   const rideStats = {
@@ -114,7 +118,7 @@ const ProfileScreen = () => {
                   </span>
                 </div>
                 <Badge className="absolute -bottom-2 -right-2 bg-yellow-500 text-white text-xs">
-                  {rideStats.organizerRank}
+                  Road Captain
                 </Badge>
               </div>
             </div>
@@ -187,6 +191,71 @@ const ProfileScreen = () => {
                   onChange={(e) => setProfile({...profile, location: e.target.value})}
                   disabled={!isEditing}
                 />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Emergency Contact */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Shield className="w-5 h-5" />
+              Emergency Contact
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <Label htmlFor="emergencyName">Contact Name</Label>
+                <Input
+                  id="emergencyName"
+                  value={profile.emergencyContact.name}
+                  onChange={(e) => setProfile({
+                    ...profile, 
+                    emergencyContact: {...profile.emergencyContact, name: e.target.value}
+                  })}
+                  disabled={!isEditing}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="emergencyPhone">Contact Phone</Label>
+                <Input
+                  id="emergencyPhone"
+                  value={profile.emergencyContact.phone}
+                  onChange={(e) => setProfile({
+                    ...profile, 
+                    emergencyContact: {...profile.emergencyContact, phone: e.target.value}
+                  })}
+                  disabled={!isEditing}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="emergencyRelation">Relationship</Label>
+                {isEditing ? (
+                  <Select 
+                    value={profile.emergencyContact.relation} 
+                    onValueChange={(value) => setProfile({
+                      ...profile, 
+                      emergencyContact: {...profile.emergencyContact, relation: value}
+                    })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Spouse">Spouse</SelectItem>
+                      <SelectItem value="Parent">Parent</SelectItem>
+                      <SelectItem value="Sibling">Sibling</SelectItem>
+                      <SelectItem value="Friend">Friend</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <Input value={profile.emergencyContact.relation} disabled />
+                )}
               </div>
             </div>
           </CardContent>
