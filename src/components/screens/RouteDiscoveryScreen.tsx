@@ -98,16 +98,16 @@ const RouteDiscoveryScreen = () => {
           </div>
         </div>
 
-        {/* Category Filters */}
+        {/* Category Filters - Changed from horizontal scroll to flex wrap */}
         <div className="px-4 pb-3">
-          <div className="flex gap-2 overflow-x-auto">
+          <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
               const Icon = category.icon;
               return (
                 <Badge
                   key={category.id}
                   variant={selectedCategory === category.id ? "default" : "secondary"}
-                  className="cursor-pointer whitespace-nowrap flex items-center gap-1"
+                  className="cursor-pointer flex items-center gap-1"
                   onClick={() => setSelectedCategory(category.id)}
                 >
                   <Icon className="w-3 h-3" />

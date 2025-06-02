@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   text-align: left;
+  overflow-x: hidden;
 }
 
 /* Enhanced mobile-first responsive design */
@@ -11,6 +12,22 @@
   #root {
     padding: 0;
   }
+}
+
+/* Prevent horizontal scrolling globally */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure all containers don't overflow horizontally */
+.container, .w-full, .min-w-0 {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .logo {
@@ -81,4 +98,15 @@ button, a, input, select, textarea {
   button, a, input, select, textarea {
     min-height: 48px;
   }
+}
+
+/* Prevent text overflow and ensure proper wrapping */
+p, span, div {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure grid and flex containers don't overflow */
+.grid, .flex {
+  min-width: 0;
 }

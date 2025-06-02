@@ -10,12 +10,12 @@ interface RideFiltersProps {
 const RideFilters = ({ rideTypes, selectedFilter, onFilterChange }: RideFiltersProps) => {
   return (
     <div className="px-4 pb-3">
-      <div className="flex gap-2 overflow-x-auto">
+      <div className="flex flex-wrap gap-2">
         {rideTypes.map((type) => (
           <Badge
             key={type}
             variant={selectedFilter === type ? "default" : "secondary"}
-            className="cursor-pointer whitespace-nowrap"
+            className="cursor-pointer"
             onClick={() => onFilterChange(type)}
           >
             {type}
