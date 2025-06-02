@@ -8,8 +8,10 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, MapPin, Award, Calendar, Edit3, Flame, Trophy, Target, Star, Zap, Shield, Phone } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ProfileScreen = () => {
+  const isMobile = useIsMobile();
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     name: "Alex Kumar",
@@ -84,7 +86,7 @@ const ProfileScreen = () => {
       <div className="bg-white border-b sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
-            <SidebarTrigger />
+            {!isMobile && <SidebarTrigger />}
             <div>
               <h1 className="text-xl font-bold">Profile</h1>
               <p className="text-sm text-gray-600">Manage your rider profile</p>
@@ -100,7 +102,7 @@ const ProfileScreen = () => {
         </div>
       </div>
 
-      <div className="p-4 space-y-6">
+      <div className={`p-4 space-y-6 ${isMobile ? 'pb-20' : 'pb-8'}`}>
         {/* Profile Info with Rank */}
         <Card>
           <CardHeader>
