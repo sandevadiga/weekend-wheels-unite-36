@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { MapPin, Clock, Users, Coffee, Fuel, Shield, Utensils, Mountain, Route, Zap } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { MapPin, Clock, Users, Coffee, Fuel, Shield, Utensils, Mountain, Route, Zap, Star } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const PlanRideScreen = () => {
@@ -19,7 +19,8 @@ const PlanRideScreen = () => {
     startPoint: "",
     destination: "",
     maxRiders: "",
-    description: ""
+    description: "",
+    role: "planner" // New field for organizer/planner selection
   });
 
   const [pitStops, setPitStops] = useState<string[]>([]);
@@ -161,6 +162,44 @@ const PlanRideScreen = () => {
       </div>
 
       <div className="p-4 space-y-6 pb-20">
+        {/* Role Selection */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Star className="w-5 h-5" />
+              Your Role
+            </CardTitle>
+            <p className="text-sm text-gray-600">Choose your role for this ride</p>
+          </CardHeader>
+          <CardContent>
+            <RadioGroup 
+              value={formData.role} 
+              onValueChange={(value) => setFormData({...formData, role: value})}
+              className="flex gap-6"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="planner" id="planner" />
+                <Label htmlFor="planner" className="flex items-center gap-2">
+                  <div className="text-sm">
+                    <div className="font-medium">Planner</div>
+                    <div className="text-gray-500 text-xs">Plan and coordinate the ride</div>
+                  </div>
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="organizer" id="organizer" />
+                <Label htmlFor="organizer" className="flex items-center gap-2">
+                  <Star className="w-4 h-4 text-orange-500" />
+                  <div className="text-sm">
+                    <div className="font-medium">Organizer</div>
+                    <div className="text-gray-500 text-xs">Lead and take full responsibility</div>
+                  </div>
+                </Label>
+              </div>
+            </RadioGroup>
+          </CardContent>
+        </Card>
+
         {/* Quick Preset Options */}
         <Card>
           <CardHeader>
@@ -364,7 +403,7 @@ const PlanRideScreen = () => {
             className="flex-1 bg-orange-500 hover:bg-orange-600" 
             onClick={handlePublish}
           >
-            Publish Ride
+            {formData.role === "organizer" ? "Publish as Organizer" : "Publish Ride"}
           </Button>
         </div>
       </div>
