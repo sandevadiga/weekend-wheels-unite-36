@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, MapPin, Award, Calendar, Edit3 } from "lucide-react";
+import { User, MapPin, Award, Calendar, Edit3, Fire, Trophy, Target, Star, Zap } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const ProfileScreen = () => {
@@ -25,27 +25,53 @@ const ProfileScreen = () => {
     totalRides: 24,
     ridesOrganized: 6,
     totalDistance: "1,840 km",
-    noShows: 1
+    noShows: 1,
+    currentStreak: 7,
+    longestStreak: 15,
+    totalPoints: 1250,
+    organizerRank: "Road Captain"
   };
 
+  const streaks = [
+    { name: "Daily Organizer", current: 7, target: 10, reward: "200 pts", type: "organizing" },
+    { name: "Weekend Warrior", current: 3, target: 5, reward: "100 pts", type: "weekend" },
+    { name: "Distance Rider", current: 8, target: 10, reward: "300 pts", type: "distance" }
+  ];
+
   const achievements = [
-    { name: "First Ride", description: "Completed your first group ride", earned: true },
-    { name: "Organizer", description: "Organized your first ride", earned: true },
-    { name: "Explorer", description: "Completed 10 rides", earned: true },
-    { name: "Road Captain", description: "Organized 5 rides", earned: true },
-    { name: "Distance Rider", description: "Covered 1000+ km", earned: true },
-    { name: "Weekend Warrior", description: "Complete 25 rides", earned: false }
+    { name: "First Ride", description: "Completed your first group ride", earned: true, points: 50, rarity: "common" },
+    { name: "Organizer", description: "Organized your first ride", earned: true, points: 100, rarity: "common" },
+    { name: "Explorer", description: "Completed 10 rides", earned: true, points: 150, rarity: "common" },
+    { name: "Road Captain", description: "Organized 5 rides", earned: true, points: 200, rarity: "rare" },
+    { name: "Distance Master", description: "Covered 1000+ km", earned: true, points: 250, rarity: "rare" },
+    { name: "Streak Legend", description: "10-day organizing streak", earned: false, points: 400, rarity: "epic" },
+    { name: "Community Leader", description: "Organize 25 rides", earned: false, points: 500, rarity: "legendary" },
+    { name: "Route Master", description: "Complete all popular routes", earned: false, points: 300, rarity: "epic" }
   ];
 
   const recentRides = [
-    { name: "Mysore Palace Run", date: "Dec 24, 2023", distance: "150 km" },
-    { name: "Morning Beach Drive", date: "Dec 17, 2023", distance: "60 km" },
-    { name: "Hill Station Express", date: "Dec 10, 2023", distance: "120 km" }
+    { name: "Mysore Palace Run", date: "Dec 24, 2023", distance: "150 km", points: 25, role: "Organizer" },
+    { name: "Morning Beach Drive", date: "Dec 17, 2023", distance: "60 km", points: 15, role: "Participant" },
+    { name: "Hill Station Express", date: "Dec 10, 2023", distance: "120 km", points: 30, role: "Organizer" }
+  ];
+
+  const challenges = [
+    { name: "New Year Resolution", description: "Organize 5 rides in January", progress: 3, target: 5, reward: "500 pts", expires: "Jan 31" },
+    { name: "Community Builder", description: "Get 50 riders to join your rides", progress: 32, target: 50, reward: "300 pts", expires: "Feb 28" }
   ];
 
   const handleSave = () => {
     setIsEditing(false);
-    // Save profile logic here
+  };
+
+  const getRarityColor = (rarity: string) => {
+    switch (rarity) {
+      case "common": return "bg-gray-100 text-gray-800";
+      case "rare": return "bg-blue-100 text-blue-800";
+      case "epic": return "bg-purple-100 text-purple-800";
+      case "legendary": return "bg-yellow-100 text-yellow-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
   };
 
   return (
@@ -71,7 +97,7 @@ const ProfileScreen = () => {
       </div>
 
       <div className="p-4 space-y-6">
-        {/* Profile Info */}
+        {/* Profile Info with Rank */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
@@ -81,10 +107,15 @@ const ProfileScreen = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-center mb-4">
-              <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-orange-600">
-                  {profile.name.split(' ').map(n => n[0]).join('')}
-                </span>
+              <div className="relative">
+                <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center">
+                  <span className="text-2xl font-bold text-orange-600">
+                    {profile.name.split(' ').map(n => n[0]).join('')}
+                  </span>
+                </div>
+                <Badge className="absolute -bottom-2 -right-2 bg-yellow-500 text-white text-xs">
+                  {rideStats.organizerRank}
+                </Badge>
               </div>
             </div>
 
@@ -161,37 +192,107 @@ const ProfileScreen = () => {
           </CardContent>
         </Card>
 
-        {/* Ride Statistics */}
+        {/* Enhanced Statistics with Streaks */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              Ride Statistics
+              <Trophy className="w-5 h-5" />
+              Stats & Points
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">{rideStats.totalRides}</div>
-                <div className="text-sm text-gray-600">Total Rides</div>
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="text-center p-3 bg-orange-50 rounded-lg border border-orange-200">
+                <div className="text-2xl font-bold text-orange-600">{rideStats.totalPoints}</div>
+                <div className="text-sm text-gray-600">Total Points</div>
               </div>
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">{rideStats.ridesOrganized}</div>
+              <div className="text-center p-3 bg-red-50 rounded-lg border border-red-200">
+                <div className="flex items-center justify-center gap-1">
+                  <Fire className="w-5 h-5 text-red-500" />
+                  <span className="text-2xl font-bold text-red-600">{rideStats.currentStreak}</span>
+                </div>
+                <div className="text-sm text-gray-600">Day Streak</div>
+              </div>
+              <div className="text-center p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="text-2xl font-bold text-blue-600">{rideStats.ridesOrganized}</div>
                 <div className="text-sm text-gray-600">Organized</div>
               </div>
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">{rideStats.totalDistance}</div>
+              <div className="text-center p-3 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-2xl font-bold text-green-600">{rideStats.totalDistance}</div>
                 <div className="text-sm text-gray-600">Distance</div>
-              </div>
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-400">{rideStats.noShows}</div>
-                <div className="text-sm text-gray-600">No-shows</div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Achievements */}
+        {/* Active Streaks */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Fire className="w-5 h-5" />
+              Active Streaks
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {streaks.map((streak, index) => (
+                <div key={index} className="border rounded-lg p-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-medium text-sm">{streak.name}</h3>
+                    <Badge variant="outline">{streak.reward}</Badge>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs text-gray-600">{streak.current}/{streak.target}</span>
+                    <span className="text-xs text-gray-500">{streak.target - streak.current} more to go</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-orange-500 h-2 rounded-full transition-all"
+                      style={{ width: `${(streak.current / streak.target) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Active Challenges */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Target className="w-5 h-5" />
+              Active Challenges
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {challenges.map((challenge, index) => (
+                <div key={index} className="border rounded-lg p-4 bg-gradient-to-r from-blue-50 to-purple-50">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="font-medium text-sm">{challenge.name}</h3>
+                      <p className="text-xs text-gray-600">{challenge.description}</p>
+                    </div>
+                    <Badge className="bg-purple-100 text-purple-800">{challenge.reward}</Badge>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs text-gray-600">{challenge.progress}/{challenge.target}</span>
+                    <span className="text-xs text-red-500">Expires {challenge.expires}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-purple-500 h-2 rounded-full transition-all"
+                      style={{ width: `${(challenge.progress / challenge.target) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Enhanced Achievements */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
@@ -214,8 +315,14 @@ const ProfileScreen = () => {
                     <Award className="w-5 h-5" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-medium text-sm">{achievement.name}</div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-medium text-sm">{achievement.name}</span>
+                      <Badge className={getRarityColor(achievement.rarity)}>
+                        {achievement.rarity}
+                      </Badge>
+                    </div>
                     <div className="text-xs text-gray-600">{achievement.description}</div>
+                    <div className="text-xs text-orange-600 font-medium">+{achievement.points} points</div>
                   </div>
                   {achievement.earned && (
                     <Badge variant="secondary" className="bg-orange-100 text-orange-700">
@@ -228,7 +335,7 @@ const ProfileScreen = () => {
           </CardContent>
         </Card>
 
-        {/* Recent Rides */}
+        {/* Recent Rides with Points */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Recent Rides</CardTitle>
@@ -240,9 +347,12 @@ const ProfileScreen = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <div className="font-medium text-sm">{ride.name}</div>
-                      <div className="text-xs text-gray-500">{ride.date}</div>
+                      <div className="text-xs text-gray-500">{ride.date} • {ride.role}</div>
                     </div>
-                    <Badge variant="outline">{ride.distance}</Badge>
+                    <div className="text-right">
+                      <Badge variant="outline">{ride.distance}</Badge>
+                      <div className="text-xs text-orange-600 font-medium">+{ride.points} pts</div>
+                    </div>
                   </div>
                   {index < recentRides.length - 1 && <Separator className="mt-3" />}
                 </div>
