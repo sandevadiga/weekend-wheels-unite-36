@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
-import BottomTabBar from "@/components/navigation/BottomTabBar";
 import HomeScreen from "@/components/screens/HomeScreen";
 import RideDetailsScreen from "@/components/screens/RideDetailsScreen";
 import MyRidesScreen from "@/components/screens/MyRidesScreen";
@@ -19,68 +18,40 @@ import NotificationsScreen from "@/components/screens/NotificationsScreen";
 import ProfileScreen from "@/components/screens/ProfileScreen";
 import JoinRideScreen from "@/components/screens/JoinRideScreen";
 import NotFound from "./pages/NotFound";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
 
-const App = () => {
-  const isMobile = useIsMobile();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen bg-gray-50">
-            {isMobile ? (
-              // Mobile Layout with Bottom Tab Bar
-              <div className="min-h-screen flex flex-col">
-                <div className="flex-1 overflow-y-auto pb-16">
-                  <Routes>
-                    <Route path="/" element={<HomeScreen />} />
-                    <Route path="/join-ride" element={<JoinRideScreen />} />
-                    <Route path="/ride/:id" element={<RideDetailsScreen />} />
-                    <Route path="/my-rides" element={<MyRidesScreen />} />
-                    <Route path="/plan-ride" element={<PlanRideScreen />} />
-                    <Route path="/location-planner" element={<LocationPlannerScreen />} />
-                    <Route path="/travel-diary" element={<TravelDiaryScreen />} />
-                    <Route path="/route-discovery" element={<RouteDiscoveryScreen />} />
-                    <Route path="/notifications" element={<NotificationsScreen />} />
-                    <Route path="/profile" element={<ProfileScreen />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </div>
-                <BottomTabBar />
-              </div>
-            ) : (
-              // Desktop Layout with Sidebar
-              <SidebarProvider>
-                <div className="min-h-screen flex w-full">
-                  <AppSidebar />
-                  <SidebarInset className="flex-1">
-                    <Routes>
-                      <Route path="/" element={<HomeScreen />} />
-                      <Route path="/join-ride" element={<JoinRideScreen />} />
-                      <Route path="/ride/:id" element={<RideDetailsScreen />} />
-                      <Route path="/my-rides" element={<MyRidesScreen />} />
-                      <Route path="/plan-ride" element={<PlanRideScreen />} />
-                      <Route path="/location-planner" element={<LocationPlannerScreen />} />
-                      <Route path="/travel-diary" element={<TravelDiaryScreen />} />
-                      <Route path="/route-discovery" element={<RouteDiscoveryScreen />} />
-                      <Route path="/notifications" element={<NotificationsScreen />} />
-                      <Route path="/profile" element={<ProfileScreen />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </SidebarInset>
-                </div>
-              </SidebarProvider>
-            )}
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
-};
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <div className="min-h-screen bg-gray-50">
+          <SidebarProvider>
+            <div className="min-h-screen flex w-full">
+              <AppSidebar />
+              <SidebarInset className="flex-1">
+                <Routes>
+                  <Route path="/" element={<HomeScreen />} />
+                  <Route path="/join-ride" element={<JoinRideScreen />} />
+                  <Route path="/ride/:id" element={<RideDetailsScreen />} />
+                  <Route path="/my-rides" element={<MyRidesScreen />} />
+                  <Route path="/plan-ride" element={<PlanRideScreen />} />
+                  <Route path="/location-planner" element={<LocationPlannerScreen />} />
+                  <Route path="/travel-diary" element={<TravelDiaryScreen />} />
+                  <Route path="/route-discovery" element={<RouteDiscoveryScreen />} />
+                  <Route path="/notifications" element={<NotificationsScreen />} />
+                  <Route path="/profile" element={<ProfileScreen />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </SidebarInset>
+            </div>
+          </SidebarProvider>
+        </div>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

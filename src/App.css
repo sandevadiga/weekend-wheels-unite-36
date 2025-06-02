@@ -6,35 +6,10 @@
   text-align: left;
 }
 
-/* Remove horizontal scrolling completely */
-html, body {
-  overflow-x: hidden;
-  width: 100%;
-  max-width: 100vw;
-}
-
 /* Enhanced mobile-first responsive design */
 @media (max-width: 768px) {
   #root {
     padding: 0;
-    max-width: 100vw;
-    overflow-x: hidden;
-  }
-  
-  /* Hide scrollbars on mobile for cleaner look */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Ensure all containers stay within viewport */
-  * {
-    max-width: 100vw;
-    box-sizing: border-box;
   }
 }
 
@@ -74,24 +49,22 @@ html, body {
   color: #888;
 }
 
-/* Custom scrollbar for desktop only */
-@media (min-width: 769px) {
-  ::-webkit-scrollbar {
-    width: 4px;
-  }
+/* Custom scrollbar for mobile */
+::-webkit-scrollbar {
+  width: 4px;
+}
 
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background: #ea580c;
-    border-radius: 2px;
-  }
+::-webkit-scrollbar-thumb {
+  background: #ea580c;
+  border-radius: 2px;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #dc2626;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
 }
 
 /* Smooth scroll behavior */
@@ -107,31 +80,5 @@ button, a, input, select, textarea {
 @media (max-width: 640px) {
   button, a, input, select, textarea {
     min-height: 48px;
-  }
-}
-
-/* Safe area for mobile devices */
-.safe-area-pb {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-/* Prevent zoom on mobile inputs */
-@media (max-width: 768px) {
-  input, select, textarea {
-    font-size: 16px;
-  }
-}
-
-/* Fix any potential horizontal overflow issues */
-.container, .flex, .grid {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* Ensure cards and components don't overflow */
-@media (max-width: 768px) {
-  .card, .bg-white, .rounded-lg, .p-4, .space-y-4 {
-    max-width: 100%;
-    overflow-x: hidden;
   }
 }

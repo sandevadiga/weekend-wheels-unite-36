@@ -1,12 +1,12 @@
+
 import { useState } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import HomeHeader from "@/components/home/HomeHeader";
 import RideFilters from "@/components/home/RideFilters";
 import TrendingSection from "@/components/home/TrendingSection";
 import RideCard from "@/components/home/RideCard";
+import FloatingActionButton from "@/components/home/FloatingActionButton";
 
 const HomeScreen = () => {
-  const isMobile = useIsMobile();
   const [searchLocation, setSearchLocation] = useState("Bangalore");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
@@ -127,8 +127,8 @@ const HomeScreen = () => {
         onFilterChange={setSelectedFilter}
       />
 
-      {/* Enhanced Rides List - Single Column for Mobile */}
-      <div className={`px-4 space-y-4 ${isMobile ? 'pb-20' : 'pb-8'}`}>
+      {/* Enhanced Rides List */}
+      <div className="px-4 sm:px-6 space-y-4 pb-24">
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold text-gray-900">Available Rides</h3>
           <div className="bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
@@ -136,7 +136,7 @@ const HomeScreen = () => {
           </div>
         </div>
         
-        <div className={`${isMobile ? 'space-y-4' : 'grid gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
+        <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {filteredRides.map((ride) => (
             <RideCard key={ride.id} ride={ride} />
           ))}
@@ -152,6 +152,8 @@ const HomeScreen = () => {
           </div>
         )}
       </div>
+
+      <FloatingActionButton />
     </div>
   );
 };
