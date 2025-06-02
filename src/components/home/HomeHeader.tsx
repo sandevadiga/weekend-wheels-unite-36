@@ -2,6 +2,7 @@
 import { MapPin, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HomeHeaderProps {
   searchLocation: string;
@@ -11,11 +12,13 @@ interface HomeHeaderProps {
 }
 
 const HomeHeader = ({ searchLocation, searchQuery, onLocationChange, onSearchChange }: HomeHeaderProps) => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200/50 sticky top-0 z-10 shadow-sm">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3">
-          <SidebarTrigger />
+          {!isMobile && <SidebarTrigger />}
           <div>
             <h1 className="text-xl font-bold text-gray-900">Discover Rides</h1>
             <div className="flex items-center gap-1 text-sm text-gray-600">
