@@ -111,7 +111,7 @@ const HomeScreen = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <HomeHeader 
         searchLocation={searchLocation}
         searchQuery={searchQuery}
@@ -127,20 +127,28 @@ const HomeScreen = () => {
         onFilterChange={setSelectedFilter}
       />
 
-      {/* Rides List */}
-      <div className="px-4 space-y-4 pb-20">
+      {/* Enhanced Rides List */}
+      <div className="px-4 sm:px-6 space-y-4 pb-24">
         <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold">Available Rides</h3>
-          <span className="text-sm text-gray-500">{filteredRides.length} rides found</span>
+          <h3 className="text-lg font-semibold text-gray-900">Available Rides</h3>
+          <div className="bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
+            <span className="text-sm text-gray-600 font-medium">{filteredRides.length} rides</span>
+          </div>
         </div>
         
-        {filteredRides.map((ride) => (
-          <RideCard key={ride.id} ride={ride} />
-        ))}
+        <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+          {filteredRides.map((ride) => (
+            <RideCard key={ride.id} ride={ride} />
+          ))}
+        </div>
         
         {filteredRides.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No rides found matching your criteria</p>
+          <div className="text-center py-12">
+            <div className="w-16 h-16 mx-auto mb-4 bg-gray-200 rounded-full flex items-center justify-center">
+              <span className="text-2xl">🔍</span>
+            </div>
+            <p className="text-gray-600 text-lg">No rides found matching your criteria</p>
+            <p className="text-gray-500 text-sm mt-1">Try adjusting your filters or search terms</p>
           </div>
         )}
       </div>
