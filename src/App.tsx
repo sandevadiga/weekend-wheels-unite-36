@@ -11,6 +11,9 @@ import HomeScreen from "@/components/screens/HomeScreen";
 import RideDetailsScreen from "@/components/screens/RideDetailsScreen";
 import MyRidesScreen from "@/components/screens/MyRidesScreen";
 import PlanRideScreen from "@/components/screens/PlanRideScreen";
+import LocationPlannerScreen from "@/components/screens/LocationPlannerScreen";
+import TravelDiaryScreen from "@/components/screens/TravelDiaryScreen";
+import RouteDiscoveryScreen from "@/components/screens/RouteDiscoveryScreen";
 import NotificationsScreen from "@/components/screens/NotificationsScreen";
 import ProfileScreen from "@/components/screens/ProfileScreen";
 import JoinRideScreen from "@/components/screens/JoinRideScreen";
@@ -35,6 +38,9 @@ const App = () => (
                   <Route path="/ride/:id" element={<RideDetailsScreen />} />
                   <Route path="/my-rides" element={<MyRidesScreen />} />
                   <Route path="/plan-ride" element={<PlanRideScreen />} />
+                  <Route path="/location-planner" element={<LocationPlannerScreen />} />
+                  <Route path="/travel-diary" element={<TravelDiaryScreen />} />
+                  <Route path="/route-discovery" element={<RouteDiscoveryScreen />} />
                   <Route path="/notifications" element={<NotificationsScreen />} />
                   <Route path="/profile" element={<ProfileScreen />} />
                   <Route path="*" element={<NotFound />} />
