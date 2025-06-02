@@ -1,9 +1,18 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset } from "@/components/ui/sidebar";
+import HomeScreen from "@/components/screens/HomeScreen";
+import RideDetailsScreen from "@/components/screens/RideDetailsScreen";
+import MyRidesScreen from "@/components/screens/MyRidesScreen";
+import PlanRideScreen from "@/components/screens/PlanRideScreen";
+import NotificationsScreen from "@/components/screens/NotificationsScreen";
+import ProfileScreen from "@/components/screens/ProfileScreen";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -14,11 +23,24 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div className="min-h-screen bg-gray-50">
+          <SidebarProvider>
+            <div className="min-h-screen flex w-full">
+              <AppSidebar />
+              <SidebarInset className="flex-1">
+                <Routes>
+                  <Route path="/" element={<HomeScreen />} />
+                  <Route path="/ride/:id" element={<RideDetailsScreen />} />
+                  <Route path="/my-rides" element={<MyRidesScreen />} />
+                  <Route path="/plan-ride" element={<PlanRideScreen />} />
+                  <Route path="/notifications" element={<NotificationsScreen />} />
+                  <Route path="/profile" element={<ProfileScreen />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </SidebarInset>
+            </div>
+          </SidebarProvider>
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
