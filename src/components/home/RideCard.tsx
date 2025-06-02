@@ -22,7 +22,6 @@ interface Ride {
   pillionSlots?: number;
   tripCode?: string;
   brand?: string;
-  bikesJoined?: { brand: string; count: number }[];
 }
 
 interface RideCardProps {
@@ -78,15 +77,6 @@ const RideCard = ({ ride }: RideCardProps) => {
     return colors[type as keyof typeof colors] || "bg-gray-100 text-gray-700 border-gray-200";
   };
 
-  const getBikesJoinedText = () => {
-    if (ride.bikesJoined && ride.bikesJoined.length > 0) {
-      return ride.bikesJoined
-        .map(bike => `${bike.count} ${bike.brand}`)
-        .join(', ');
-    }
-    return ride.brand ? `1 ${ride.brand}` : "No bikes yet";
-  };
-
   return (
     <Card className="w-full hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-0 shadow-md bg-white/90 backdrop-blur-sm">
       <CardHeader className="pb-3">
@@ -114,6 +104,11 @@ const RideCard = ({ ride }: RideCardProps) => {
               <div className="text-xs bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 px-2 py-1 rounded-full font-medium">
                 📍 {ride.distanceFromUser} away
               </div>
+              {ride.brand && (
+                <div className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                  🏍️ {ride.brand}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex flex-col gap-1 items-end">
@@ -173,14 +168,6 @@ const RideCard = ({ ride }: RideCardProps) => {
           >
             <Share2 className="w-3 h-3" />
           </Button>
-        </div>
-
-        {/* Bikes Joined Section */}
-        <div className="mb-3 p-2 bg-gray-50 rounded-lg">
-          <div className="text-xs text-gray-600 mb-1">Bikes Joined:</div>
-          <div className="text-sm font-medium text-gray-800">
-            🏍️ {getBikesJoinedText()}
-          </div>
         </div>
         
         <div className="flex gap-2">

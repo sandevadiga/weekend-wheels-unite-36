@@ -10,7 +10,6 @@ import {
   SidebarMenuItem,
   SidebarHeader,
   SidebarFooter,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { MapPin, Calendar, Plus, Bell, User, QrCode } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -49,13 +48,6 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
-  const { setOpenMobile } = useSidebar();
-
-  const handleMenuClick = () => {
-    // Close sidebar on mobile when menu item is clicked
-    setOpenMobile(false);
-  };
-
   return (
     <Sidebar className="border-r">
       <SidebarHeader className="p-4">
@@ -74,7 +66,7 @@ export function AppSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link to={item.url} className="flex items-center gap-3" onClick={handleMenuClick}>
+                    <Link to={item.url} className="flex items-center gap-3">
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
                     </Link>

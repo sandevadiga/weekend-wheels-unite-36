@@ -10,8 +10,6 @@ const HomeScreen = () => {
   const [searchLocation, setSearchLocation] = useState("Bangalore");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
-  const [sortBy, setSortBy] = useState("date");
-  const [filterBy, setFilterBy] = useState("all");
 
   const rideTypes = ["All", "Breakfast", "Adventure", "Scenic", "Long Distance", "Night Ride"];
   
@@ -31,12 +29,7 @@ const HomeScreen = () => {
       pillionAvailable: true,
       pillionSlots: 3,
       tripCode: "NH001",
-      brand: "Royal Enfield",
-      bikesJoined: [
-        { brand: "Royal Enfield", count: 8 },
-        { brand: "Yamaha", count: 3 },
-        { brand: "Honda", count: 1 }
-      ]
+      brand: "Royal Enfield"
     },
     {
       id: 2,
@@ -53,12 +46,7 @@ const HomeScreen = () => {
       pillionAvailable: true,
       pillionSlots: 2,
       tripCode: "CT002",
-      brand: "Kawasaki",
-      bikesJoined: [
-        { brand: "Kawasaki", count: 4 },
-        { brand: "Royal Enfield", count: 3 },
-        { brand: "Bajaj", count: 1 }
-      ]
+      brand: "Kawasaki"
     },
     {
       id: 3,
@@ -74,12 +62,7 @@ const HomeScreen = () => {
       distanceFromUser: "3.1 km",
       pillionAvailable: false,
       tripCode: "CH003",
-      brand: "Honda",
-      bikesJoined: [
-        { brand: "Honda", count: 9 },
-        { brand: "Yamaha", count: 4 },
-        { brand: "Royal Enfield", count: 2 }
-      ]
+      brand: "Honda"
     },
     {
       id: 4,
@@ -96,12 +79,7 @@ const HomeScreen = () => {
       pillionAvailable: true,
       pillionSlots: 4,
       tripCode: "WM004",
-      brand: "Bajaj",
-      bikesJoined: [
-        { brand: "Bajaj", count: 3 },
-        { brand: "KTM", count: 2 },
-        { brand: "Royal Enfield", count: 1 }
-      ]
+      brand: "Bajaj"
     },
     {
       id: 5,
@@ -118,12 +96,7 @@ const HomeScreen = () => {
       pillionAvailable: true,
       pillionSlots: 6,
       tripCode: "MC005",
-      brand: "Yamaha",
-      bikesJoined: [
-        { brand: "Yamaha", count: 12 },
-        { brand: "Honda", count: 4 },
-        { brand: "Royal Enfield", count: 2 }
-      ]
+      brand: "Yamaha"
     }
   ];
 
@@ -134,43 +107,7 @@ const HomeScreen = () => {
       ride.organizer.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ride.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ride.tripCode?.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    // Apply additional filters
-    let matchesAdvancedFilter = true;
-    switch (filterBy) {
-      case 'today':
-        matchesAdvancedFilter = ride.date.includes('Today');
-        break;
-      case 'tomorrow':
-        matchesAdvancedFilter = ride.date.includes('Tomorrow');
-        break;
-      case 'weekend':
-        matchesAdvancedFilter = ride.date.includes('Jan');
-        break;
-      case 'nearby':
-        matchesAdvancedFilter = parseFloat(ride.distanceFromUser) < 5;
-        break;
-      case 'available':
-        matchesAdvancedFilter = ride.joinedCount < ride.maxRiders;
-        break;
-      default:
-        matchesAdvancedFilter = true;
-    }
-    
-    return matchesFilter && matchesSearch && matchesAdvancedFilter;
-  });
-
-  // Sort the filtered rides
-  const sortedRides = [...filteredRides].sort((a, b) => {
-    switch (sortBy) {
-      case 'distance':
-        return parseFloat(a.distanceFromUser) - parseFloat(b.distanceFromUser);
-      case 'people':
-        return b.joinedCount - a.joinedCount;
-      case 'date':
-      default:
-        return 0; // Keep original order for date
-    }
+    return matchesFilter && matchesSearch;
   });
 
   return (
@@ -180,10 +117,6 @@ const HomeScreen = () => {
         searchQuery={searchQuery}
         onLocationChange={setSearchLocation}
         onSearchChange={setSearchQuery}
-        sortBy={sortBy}
-        onSortChange={setSortBy}
-        filterBy={filterBy}
-        onFilterChange={setFilterBy}
       />
       
       <TrendingSection />
@@ -199,17 +132,17 @@ const HomeScreen = () => {
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold text-gray-900">Available Rides</h3>
           <div className="bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
-            <span className="text-sm text-gray-600 font-medium">{sortedRides.length} rides</span>
+            <span className="text-sm text-gray-600 font-medium">{filteredRides.length} rides</span>
           </div>
         </div>
         
         <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-          {sortedRides.map((ride) => (
+          {filteredRides.map((ride) => (
             <RideCard key={ride.id} ride={ride} />
           ))}
         </div>
         
-        {sortedRides.length === 0 && (
+        {filteredRides.length === 0 && (
           <div className="text-center py-12">
             <div className="w-16 h-16 mx-auto mb-4 bg-gray-200 rounded-full flex items-center justify-center">
               <span className="text-2xl">🔍</span>
