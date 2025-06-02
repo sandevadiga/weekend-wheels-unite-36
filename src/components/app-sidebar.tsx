@@ -11,7 +11,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { MapPin, Calendar, Plus, Bell, User } from "lucide-react";
+import { MapPin, Calendar, Plus, Bell, User, QrCode } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const menuItems = [
@@ -19,6 +19,11 @@ const menuItems = [
     title: "Discover Rides",
     url: "/",
     icon: MapPin,
+  },
+  {
+    title: "Join Ride",
+    url: "/join-ride",
+    icon: QrCode,
   },
   {
     title: "My Rides",

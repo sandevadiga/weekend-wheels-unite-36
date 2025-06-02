@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Clock, Users, Plus } from "lucide-react";
+import { MapPin, Clock, Users, Plus, Star } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const rideTypes = ["All", "Breakfast", "Off-road", "Long", "Beginner"];
@@ -20,6 +20,7 @@ const mockRides = [
     type: "Breakfast",
     joinedCount: 12,
     maxRiders: 15,
+    isOrganizer: true,
   },
   {
     id: 2,
@@ -31,6 +32,7 @@ const mockRides = [
     type: "Long",
     joinedCount: 8,
     maxRiders: 12,
+    isOrganizer: false,
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const mockRides = [
     type: "Beginner",
     joinedCount: 6,
     maxRiders: 10,
+    isOrganizer: false,
   },
 ];
 
@@ -122,13 +125,21 @@ const HomeScreen = () => {
             <CardContent className="pt-0">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-medium text-orange-600">
-                      {ride.organizer.split(' ').map(n => n[0]).join('')}
-                    </span>
+                  <div className="relative">
+                    <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                      <span className="text-xs font-medium text-orange-600">
+                        {ride.organizer.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    {ride.isOrganizer && (
+                      <Star className="absolute -top-1 -right-1 w-4 h-4 text-yellow-500 fill-yellow-500" />
+                    )}
                   </div>
                   <div>
-                    <div className="text-sm font-medium">{ride.organizer}</div>
+                    <div className="text-sm font-medium flex items-center gap-1">
+                      {ride.organizer}
+                      {ride.isOrganizer && <span className="text-xs text-yellow-600">(Organizer)</span>}
+                    </div>
                     <div className="flex items-center gap-1 text-xs text-gray-500">
                       <Users className="w-3 h-3" />
                       {ride.joinedCount}/{ride.maxRiders} joined

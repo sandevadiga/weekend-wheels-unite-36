@@ -13,6 +13,7 @@ import MyRidesScreen from "@/components/screens/MyRidesScreen";
 import PlanRideScreen from "@/components/screens/PlanRideScreen";
 import NotificationsScreen from "@/components/screens/NotificationsScreen";
 import ProfileScreen from "@/components/screens/ProfileScreen";
+import JoinRideScreen from "@/components/screens/JoinRideScreen";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
               <SidebarInset className="flex-1">
                 <Routes>
                   <Route path="/" element={<HomeScreen />} />
+                  <Route path="/join-ride" element={<JoinRideScreen />} />
                   <Route path="/ride/:id" element={<RideDetailsScreen />} />
                   <Route path="/my-rides" element={<MyRidesScreen />} />
                   <Route path="/plan-ride" element={<PlanRideScreen />} />

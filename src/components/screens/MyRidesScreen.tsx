@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MapPin, Clock, Users, Calendar } from "lucide-react";
+import { MapPin, Clock, Users, Calendar, Star } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const MyRidesScreen = () => {
@@ -17,7 +17,8 @@ const MyRidesScreen = () => {
       organizer: "Rajesh Kumar",
       type: "Breakfast",
       joinedCount: 12,
-      status: "confirmed"
+      status: "confirmed",
+      isCurrentUserOrganizer: true
     },
     {
       id: 2,
@@ -27,7 +28,8 @@ const MyRidesScreen = () => {
       organizer: "Priya Singh",
       type: "Long",
       joinedCount: 8,
-      status: "confirmed"
+      status: "confirmed",
+      isCurrentUserOrganizer: false
     }
   ];
 
@@ -40,7 +42,8 @@ const MyRidesScreen = () => {
       organizer: "Amit Patel",
       type: "Long",
       joinedCount: 10,
-      status: "completed"
+      status: "completed",
+      isCurrentUserOrganizer: false
     },
     {
       id: 4,
@@ -50,7 +53,8 @@ const MyRidesScreen = () => {
       organizer: "Sneha Reddy",
       type: "Breakfast",
       joinedCount: 8,
-      status: "completed"
+      status: "completed",
+      isCurrentUserOrganizer: false
     }
   ];
 
@@ -64,7 +68,8 @@ const MyRidesScreen = () => {
       type: "Beginner",
       joinedCount: 6,
       maxRiders: 10,
-      status: "organizing"
+      status: "organizing",
+      isCurrentUserOrganizer: true
     }
   ];
 
@@ -93,13 +98,21 @@ const MyRidesScreen = () => {
       <CardContent className="pt-0">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-              <span className="text-xs font-medium text-orange-600">
-                {ride.organizer === "You" ? "Y" : ride.organizer.split(' ').map((n: string) => n[0]).join('')}
-              </span>
+            <div className="relative">
+              <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                <span className="text-xs font-medium text-orange-600">
+                  {ride.organizer === "You" ? "Y" : ride.organizer.split(' ').map((n: string) => n[0]).join('')}
+                </span>
+              </div>
+              {ride.isCurrentUserOrganizer && (
+                <Star className="absolute -top-1 -right-1 w-4 h-4 text-yellow-500 fill-yellow-500" />
+              )}
             </div>
             <div>
-              <div className="text-sm font-medium">{ride.organizer}</div>
+              <div className="text-sm font-medium flex items-center gap-1">
+                {ride.organizer}
+                {ride.isCurrentUserOrganizer && <span className="text-xs text-yellow-600">(Organizer)</span>}
+              </div>
               <div className="flex items-center gap-1 text-xs text-gray-500">
                 <Users className="w-3 h-3" />
                 {ride.joinedCount}{ride.maxRiders ? `/${ride.maxRiders}` : ''} {isPast ? 'riders' : 'joined'}
