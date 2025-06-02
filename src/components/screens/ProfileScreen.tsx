@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, MapPin, Award, Calendar, Edit3, Fire, Trophy, Target, Star, Zap, Shield, Phone } from "lucide-react";
+import { User, MapPin, Award, Calendar, Edit3, Flame, Trophy, Target, Star, Zap, Shield, Phone } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const ProfileScreen = () => {
@@ -277,7 +277,7 @@ const ProfileScreen = () => {
               </div>
               <div className="text-center p-3 bg-red-50 rounded-lg border border-red-200">
                 <div className="flex items-center justify-center gap-1">
-                  <Fire className="w-5 h-5 text-red-500" />
+                  <Flame className="w-5 h-5 text-red-500" />
                   <span className="text-2xl font-bold text-red-600">{rideStats.currentStreak}</span>
                 </div>
                 <div className="text-sm text-gray-600">Day Streak</div>
@@ -298,7 +298,7 @@ const ProfileScreen = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <Fire className="w-5 h-5" />
+              <Flame className="w-5 h-5" />
               Active Streaks
             </CardTitle>
           </CardHeader>

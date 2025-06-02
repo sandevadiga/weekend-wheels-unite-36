@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Users, Coffee, Fuel, Shield, Utensils, Mountain, Route, Zap, Star, Trophy, Target, Fire } from "lucide-react";
+import { MapPin, Clock, Users, Coffee, Fuel, Shield, Utensils, Mountain, Route, Zap, Star, Trophy, Target, Flame } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const PlanRideScreen = () => {
@@ -253,7 +253,7 @@ const PlanRideScreen = () => {
           </div>
           <div className="flex items-center gap-3 text-sm">
             <div className="flex items-center gap-1 text-orange-600">
-              <Fire className="w-4 h-4" />
+              <Flame className="w-4 h-4" />
               <span className="font-bold">{userStats.currentStreak}</span>
               <span>day streak</span>
             </div>
