@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import GlobalHeader from "@/components/GlobalHeader";
 import UserStats from "@/components/ride-planning/UserStats";
 import PopularRoutes from "@/components/ride-planning/PopularRoutes";
 import RoleSelection from "@/components/ride-planning/RoleSelection";
@@ -149,18 +149,18 @@ const PlanRideScreen = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with Streak Info */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <SidebarTrigger />
-            <div>
-              <h1 className="text-xl font-bold">Plan a Ride</h1>
-              <p className="text-sm text-gray-600">Create an amazing weekend experience</p>
-            </div>
-          </div>
-          <UserStats userStats={userStats} />
-        </div>
+      {/* Global Header */}
+      <GlobalHeader 
+        title="Plan a Ride"
+        subtitle="Create an amazing weekend experience"
+        showBack={true}
+        showNotifications={true}
+        notificationCount={3}
+      />
+      
+      {/* User Stats */}
+      <div className="p-3 border-b bg-white">
+        <UserStats userStats={userStats} />
       </div>
 
       <div className="p-4 space-y-6 pb-20">

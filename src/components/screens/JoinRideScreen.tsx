@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import GlobalHeader from "@/components/GlobalHeader";
 import { QrCode, Hash, ArrowLeft, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -44,25 +44,14 @@ const JoinRideScreen = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Enhanced Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b sticky top-0 z-10 shadow-sm">
-        <div className="flex items-center gap-3 p-4">
-          <SidebarTrigger />
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => navigate('/')}
-            className="hover:bg-gray-100 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            Back
-          </Button>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">Join Ride</h1>
-            <p className="text-sm text-gray-600">Enter trip code to join a ride</p>
-          </div>
-        </div>
-      </div>
+      {/* Global Header */}
+      <GlobalHeader 
+        title="Join Ride"
+        subtitle="Enter trip code to join"
+        showBack={true}
+        showNotifications={true}
+        notificationCount={3}
+      />
 
       <div className="p-4 sm:p-6">
         <Card className="w-full max-w-md mx-auto shadow-lg border-0 bg-white/90 backdrop-blur-sm">

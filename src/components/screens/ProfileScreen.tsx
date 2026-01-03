@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, MapPin, Award, Calendar, Edit3, Flame, Trophy, Target, Star, Zap, Shield, Phone } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import GlobalHeader from "@/components/GlobalHeader";
 
 const ProfileScreen = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -80,27 +80,28 @@ const ProfileScreen = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <SidebarTrigger />
-            <div>
-              <h1 className="text-xl font-bold">Profile</h1>
-              <p className="text-sm text-gray-600">Manage your rider profile</p>
-            </div>
-          </div>
+      {/* Global Header */}
+      <GlobalHeader 
+        title="Profile"
+        subtitle="Manage your rider profile"
+        showBack={true}
+        showNotifications={true}
+        notificationCount={3}
+      />
+
+      <div className="p-3 space-y-4">
+        {/* Edit Button */}
+        <div className="flex justify-end mb-4">
           <Button
             variant={isEditing ? "default" : "outline"}
             size="sm"
             onClick={isEditing ? handleSave : () => setIsEditing(true)}
+            className={isEditing ? "bg-orange-500 hover:bg-orange-600" : ""}
           >
             {isEditing ? "Save" : <Edit3 className="w-4 h-4" />}
           </Button>
         </div>
-      </div>
 
-      <div className="p-4 space-y-6">
         {/* Profile Info with Rank */}
         <Card>
           <CardHeader>

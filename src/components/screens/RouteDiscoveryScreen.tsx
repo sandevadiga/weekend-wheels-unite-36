@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Navigation, MapPin, Star, Route, TrendingUp, Users, Clock, Fuel, Camera, Search, Filter } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import GlobalHeader from "@/components/GlobalHeader";
 
 const RouteDiscoveryScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -75,32 +75,21 @@ const RouteDiscoveryScreen = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="flex items-center gap-3 p-4">
-          <SidebarTrigger />
-          <div>
-            <h1 className="text-xl font-bold">Route Discovery</h1>
-            <p className="text-sm text-gray-600">Find amazing routes shared by riders</p>
-          </div>
-        </div>
-        
-        {/* Search */}
-        <div className="px-4 pb-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search routes by name, location..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10"
-            />
-          </div>
-        </div>
+      {/* Global Header */}
+      <GlobalHeader 
+        title="Route Discovery"
+        subtitle="Find amazing routes shared by riders"
+        showBack={true}
+        showSearch={true}
+        showNotifications={true}
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+        notificationCount={3}
+      />
 
-        {/* Category Filters - Changed from horizontal scroll to flex wrap */}
-        <div className="px-4 pb-3">
-          <div className="flex flex-wrap gap-2">
+      <div className="p-3 space-y-4">
+        {/* Category Filters */}
+        <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
               const Icon = category.icon;
               return (

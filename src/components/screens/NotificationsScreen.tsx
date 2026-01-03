@@ -3,8 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bell, Clock, MapPin, Users, AlertCircle, CheckCircle } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useState } from "react";
+import GlobalHeader from "@/components/GlobalHeader";
 
 const NotificationsScreen = () => {
   const [notifications, setNotifications] = useState([
@@ -90,24 +90,17 @@ const NotificationsScreen = () => {
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Enhanced Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200/50 sticky top-0 z-10 shadow-sm">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <SidebarTrigger />
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">Notifications</h1>
-              <p className="text-sm text-gray-600">
-                Stay updated on your rides
-                {unreadCount > 0 && (
-                  <span className="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-700">
-                    {unreadCount} new
-                  </span>
-                )}
-              </p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Global Header */}
+      <GlobalHeader 
+        title="Notifications"
+        subtitle={`Stay updated on your rides${unreadCount > 0 ? ` • ${unreadCount} new` : ''}`}
+        showBack={true}
+      />
+
+      <div className="p-3 space-y-3">
+        {/* Actions */}
+        <div className="flex justify-end mb-4">
           {unreadCount > 0 && (
             <Button 
               variant="ghost" 
@@ -116,13 +109,10 @@ const NotificationsScreen = () => {
               className="hover:bg-orange-50 hover:text-orange-700 transition-colors"
             >
               <CheckCircle className="w-4 h-4 mr-1" />
-              Mark all read
+              Mark all
             </Button>
           )}
         </div>
-      </div>
-
-      <div className="p-4 sm:p-6 space-y-3">
         {notifications.length > 0 ? (
           notifications.map((notification) => {
             const Icon = getNotificationIcon(notification.type);

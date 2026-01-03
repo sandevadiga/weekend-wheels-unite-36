@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin, Navigation, Clock, Star, Camera, Users, Route, Fuel, Coffee, Mountain, Search, Filter } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import GlobalHeader from "@/components/GlobalHeader";
 
 const LocationPlannerScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -75,32 +75,21 @@ const LocationPlannerScreen = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="flex items-center gap-3 p-4">
-          <SidebarTrigger />
-          <div>
-            <h1 className="text-xl font-bold">Location Planner</h1>
-            <p className="text-sm text-gray-600">Discover amazing riding destinations</p>
-          </div>
-        </div>
-        
-        {/* Search */}
-        <div className="px-4 pb-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search destinations, attractions..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10"
-            />
-          </div>
-        </div>
+      {/* Global Header */}
+      <GlobalHeader 
+        title="Location Planner"
+        subtitle="Discover amazing riding destinations"
+        showBack={true}
+        showSearch={true}
+        showNotifications={true}
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+        notificationCount={3}
+      />
 
+      <div className="p-3 space-y-4">
         {/* Filter Tabs */}
-        <div className="px-4 pb-3">
-          <div className="flex gap-2 overflow-x-auto">
+        <div className="flex gap-2 overflow-x-auto">
             {routeTypes.map((type) => {
               const Icon = type.icon;
               return (
@@ -115,11 +104,8 @@ const LocationPlannerScreen = () => {
                 </Badge>
               );
             })}
-          </div>
         </div>
-      </div>
-
-      <div className="p-4 space-y-6 pb-20">
+        
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-3">
           <Card className="text-center p-3">

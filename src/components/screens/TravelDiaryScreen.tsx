@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { BookOpen, Camera, MapPin, Calendar, Star, Route, Plus, Heart, MessageCircle, Share } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import GlobalHeader from "@/components/GlobalHeader";
 
 const TravelDiaryScreen = () => {
   const [selectedTab, setSelectedTab] = useState("entries");
@@ -66,21 +66,21 @@ const TravelDiaryScreen = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <SidebarTrigger />
-            <div>
-              <h1 className="text-xl font-bold">Travel Diary</h1>
-              <p className="text-sm text-gray-600">Your riding adventures</p>
-            </div>
-          </div>
-          <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-            <Plus className="w-4 h-4 mr-1" />
-            New Entry
-          </Button>
-        </div>
+      {/* Global Header */}
+      <GlobalHeader 
+        title="Travel Diary"
+        subtitle="Your riding adventures"
+        showBack={true}
+        showNotifications={true}
+        notificationCount={3}
+      />
+      
+      {/* New Entry Button */}
+      <div className="p-3 border-b bg-white">
+        <Button size="sm" className="bg-orange-500 hover:bg-orange-600 w-full">
+          <Plus className="w-4 h-4 mr-1" />
+          New Entry
+        </Button>
       </div>
 
       <div className="p-4 space-y-6 pb-20">

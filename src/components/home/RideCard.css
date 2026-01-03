@@ -1,0 +1,66 @@
+/* Premium card shimmer effect */
+.premium-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.premium-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.7s;
+  z-index: 1;
+}
+
+.premium-card:hover::before {
+  left: 100%;
+}
+
+.premium-card:active {
+  transform: translateY(-2px) scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Pulse animation for urgent rides */
+@keyframes urgent-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+}
+
+.urgent-ride {
+  animation: urgent-pulse 2s infinite;
+}
+
+/* Smooth hover transform for cards */
+.card-hover-transform {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover-transform:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Clickable card indication */
+.premium-card:hover {
+  cursor: pointer;
+}
+
+.premium-card:hover .card-title {
+  color: rgb(234, 88, 12); /* orange-600 */
+  transition: color 0.2s ease;
+}

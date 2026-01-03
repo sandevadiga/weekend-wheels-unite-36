@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin, Clock, Users, Calendar, Star } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import GlobalHeader from "@/components/GlobalHeader";
 
 const MyRidesScreen = () => {
   const upcomingRides = [
@@ -74,31 +74,31 @@ const MyRidesScreen = () => {
   ];
 
   const RideCard = ({ ride, showActions = false, isPast = false }: any) => (
-    <Card className="w-full">
+    <Card className="w-full max-w-full overflow-hidden">
       <CardHeader className="pb-3">
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle className="text-lg">{ride.title}</CardTitle>
-            <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
+        <div className="flex justify-between items-start gap-3">
+          <div className="min-w-0 flex-1">
+            <CardTitle className="text-lg truncate">{ride.title}</CardTitle>
+            <div className="space-y-1 text-sm text-gray-600 mt-1">
               <div className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                {ride.date}
+                <Clock className="w-3 h-3 shrink-0" />
+                <span className="truncate">{ride.date}</span>
               </div>
               <div className="flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
-                {ride.distance}
+                <MapPin className="w-3 h-3 shrink-0" />
+                <span className="truncate">{ride.distance}</span>
               </div>
             </div>
           </div>
-          <Badge variant={isPast ? "secondary" : "outline"}>
+          <Badge variant={isPast ? "secondary" : "outline"} className="shrink-0">
             {ride.type}
           </Badge>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="relative">
+        <div className="flex justify-between items-center gap-3">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <div className="relative shrink-0">
               <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
                 <span className="text-xs font-medium text-orange-600">
                   {ride.organizer === "You" ? "Y" : ride.organizer.split(' ').map((n: string) => n[0]).join('')}
@@ -108,66 +108,56 @@ const MyRidesScreen = () => {
                 <Star className="absolute -top-1 -right-1 w-4 h-4 text-yellow-500 fill-yellow-500" />
               )}
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <div className="text-sm font-medium flex items-center gap-1">
-                {ride.organizer}
-                {ride.isCurrentUserOrganizer && <span className="text-xs text-yellow-600">(Organizer)</span>}
+                <span className="truncate">{ride.organizer}</span>
+                {ride.isCurrentUserOrganizer && <span className="text-xs text-yellow-600 shrink-0">(Host)</span>}
               </div>
               <div className="flex items-center gap-1 text-xs text-gray-500">
-                <Users className="w-3 h-3" />
-                {ride.joinedCount}{ride.maxRiders ? `/${ride.maxRiders}` : ''} {isPast ? 'riders' : 'joined'}
+                <Users className="w-3 h-3 shrink-0" />
+                <span>{ride.joinedCount}{ride.maxRiders ? `/${ride.maxRiders}` : ''} {isPast ? 'riders' : 'joined'}</span>
               </div>
             </div>
           </div>
-          {showActions && !isPast && (
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                Leave
-              </Button>
-              <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                View
-              </Button>
-            </div>
-          )}
-          {isPast && (
-            <Button variant="outline" size="sm">
-              View Details
-            </Button>
-          )}
-          {ride.status === "organizing" && (
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                Edit
-              </Button>
-              <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                Share
-              </Button>
-            </div>
-          )}
+          <div className="flex gap-2 shrink-0">
+            {showActions && !isPast && (
+              <>
+                <Button variant="outline" size="sm">Leave</Button>
+                <Button size="sm" className="bg-orange-500 hover:bg-orange-600">View</Button>
+              </>
+            )}
+            {isPast && (
+              <Button variant="outline" size="sm">Details</Button>
+            )}
+            {ride.status === "organizing" && (
+              <>
+                <Button variant="outline" size="sm">Edit</Button>
+                <Button size="sm" className="bg-orange-500 hover:bg-orange-600">Share</Button>
+              </>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="flex items-center gap-3 p-4">
-          <SidebarTrigger />
-          <div>
-            <h1 className="text-xl font-bold">My Rides</h1>
-            <p className="text-sm text-gray-600">Track your riding adventures</p>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-50 overflow-hidden">
+      {/* Global Header */}
+      <GlobalHeader 
+        title="My Rides"
+        subtitle="Track your riding adventures"
+        showBack={true}
+        showNotifications={true}
+        notificationCount={3}
+      />
 
-      <div className="p-4">
+      <div className="p-3 overflow-hidden">
         <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-            <TabsTrigger value="past">Past Rides</TabsTrigger>
-            <TabsTrigger value="organized">Organized</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 mb-4">
+            <TabsTrigger value="upcoming" className="text-xs">Upcoming</TabsTrigger>
+            <TabsTrigger value="past" className="text-xs">Past Rides</TabsTrigger>
+            <TabsTrigger value="organized" className="text-xs">Organized</TabsTrigger>
           </TabsList>
           
           <TabsContent value="upcoming" className="space-y-4 mt-4">

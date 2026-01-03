@@ -11,14 +11,17 @@ const FloatingActionButton = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+    <div className="fixed bottom-6 right-4 z-50">
       <Button 
         size="lg" 
-        className="rounded-full h-12 w-12 sm:h-14 sm:w-14 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 active:scale-95"
+        className="rounded-full h-14 w-14 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-2xl hover:shadow-orange-500/25 transform hover:scale-110 transition-all duration-300 active:scale-95 border-2 border-white/20"
         onClick={handleClick}
       >
-        <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
+        <Plus className="w-6 h-6 text-white" />
       </Button>
+      
+      {/* Ripple effect background */}
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 opacity-20 animate-pulse -z-10"></div>
     </div>
   );
 };
