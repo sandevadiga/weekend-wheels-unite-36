@@ -81,7 +81,7 @@ const ProfileScreen = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Global Header */}
-      <GlobalHeader 
+      <GlobalHeader
         title="Profile"
         subtitle="Manage your rider profile"
         showBack={true}
@@ -90,25 +90,23 @@ const ProfileScreen = () => {
       />
 
       <div className="p-3 space-y-4">
-        {/* Edit Button */}
-        <div className="flex justify-end mb-4">
-          <Button
-            variant={isEditing ? "default" : "outline"}
-            size="sm"
-            onClick={isEditing ? handleSave : () => setIsEditing(true)}
-            className={isEditing ? "bg-orange-500 hover:bg-orange-600" : ""}
-          >
-            {isEditing ? "Save" : <Edit3 className="w-4 h-4" />}
-          </Button>
-        </div>
-
         {/* Profile Info with Rank */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <User className="w-5 h-5" />
-              Personal Information
-            </CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <User className="w-5 h-5" />
+                Personal Information
+              </CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={isEditing ? handleSave : () => setIsEditing(true)}
+                className={isEditing ? "text-orange-500 hover:text-orange-600" : "text-gray-600 hover:text-gray-900"}
+              >
+                {isEditing ? "Save" : "Edit"}
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-center mb-4">
@@ -130,7 +128,7 @@ const ProfileScreen = () => {
                 <Input
                   id="name"
                   value={profile.name}
-                  onChange={(e) => setProfile({...profile, name: e.target.value})}
+                  onChange={(e) => setProfile({ ...profile, name: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -140,7 +138,7 @@ const ProfileScreen = () => {
                 <Input
                   id="phone"
                   value={profile.phone}
-                  onChange={(e) => setProfile({...profile, phone: e.target.value})}
+                  onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -151,7 +149,7 @@ const ProfileScreen = () => {
                   id="email"
                   type="email"
                   value={profile.email}
-                  onChange={(e) => setProfile({...profile, email: e.target.value})}
+                  onChange={(e) => setProfile({ ...profile, email: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -161,7 +159,7 @@ const ProfileScreen = () => {
                 <Input
                   id="bike"
                   value={profile.bike}
-                  onChange={(e) => setProfile({...profile, bike: e.target.value})}
+                  onChange={(e) => setProfile({ ...profile, bike: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -169,7 +167,7 @@ const ProfileScreen = () => {
               <div>
                 <Label htmlFor="level">Riding Level</Label>
                 {isEditing ? (
-                  <Select value={profile.ridingLevel} onValueChange={(value) => setProfile({...profile, ridingLevel: value})}>
+                  <Select value={profile.ridingLevel} onValueChange={(value) => setProfile({ ...profile, ridingLevel: value })}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -189,7 +187,7 @@ const ProfileScreen = () => {
                 <Input
                   id="location"
                   value={profile.location}
-                  onChange={(e) => setProfile({...profile, location: e.target.value})}
+                  onChange={(e) => setProfile({ ...profile, location: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -213,8 +211,8 @@ const ProfileScreen = () => {
                   id="emergencyName"
                   value={profile.emergencyContact.name}
                   onChange={(e) => setProfile({
-                    ...profile, 
-                    emergencyContact: {...profile.emergencyContact, name: e.target.value}
+                    ...profile,
+                    emergencyContact: { ...profile.emergencyContact, name: e.target.value }
                   })}
                   disabled={!isEditing}
                 />
@@ -226,8 +224,8 @@ const ProfileScreen = () => {
                   id="emergencyPhone"
                   value={profile.emergencyContact.phone}
                   onChange={(e) => setProfile({
-                    ...profile, 
-                    emergencyContact: {...profile.emergencyContact, phone: e.target.value}
+                    ...profile,
+                    emergencyContact: { ...profile.emergencyContact, phone: e.target.value }
                   })}
                   disabled={!isEditing}
                 />
@@ -236,11 +234,11 @@ const ProfileScreen = () => {
               <div>
                 <Label htmlFor="emergencyRelation">Relationship</Label>
                 {isEditing ? (
-                  <Select 
-                    value={profile.emergencyContact.relation} 
+                  <Select
+                    value={profile.emergencyContact.relation}
                     onValueChange={(value) => setProfile({
-                      ...profile, 
-                      emergencyContact: {...profile.emergencyContact, relation: value}
+                      ...profile,
+                      emergencyContact: { ...profile.emergencyContact, relation: value }
                     })}
                   >
                     <SelectTrigger>
@@ -316,7 +314,7 @@ const ProfileScreen = () => {
                     <span className="text-xs text-gray-500">{streak.target - streak.current} more to go</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className="bg-orange-500 h-2 rounded-full transition-all"
                       style={{ width: `${(streak.current / streak.target) * 100}%` }}
                     />
@@ -351,7 +349,7 @@ const ProfileScreen = () => {
                     <span className="text-xs text-red-500">Expires {challenge.expires}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className="bg-purple-500 h-2 rounded-full transition-all"
                       style={{ width: `${(challenge.progress / challenge.target) * 100}%` }}
                     />
@@ -373,15 +371,13 @@ const ProfileScreen = () => {
           <CardContent>
             <div className="grid grid-cols-1 gap-3">
               {achievements.map((achievement, index) => (
-                <div 
-                  key={index} 
-                  className={`flex items-center gap-3 p-3 rounded-lg ${
-                    achievement.earned ? 'bg-orange-50 border border-orange-200' : 'bg-gray-50'
-                  }`}
+                <div
+                  key={index}
+                  className={`flex items-center gap-3 p-3 rounded-lg ${achievement.earned ? 'bg-orange-50 border border-orange-200' : 'bg-gray-50'
+                    }`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    achievement.earned ? 'bg-orange-500 text-white' : 'bg-gray-300 text-gray-500'
-                  }`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${achievement.earned ? 'bg-orange-500 text-white' : 'bg-gray-300 text-gray-500'
+                    }`}>
                     <Award className="w-5 h-5" />
                   </div>
                   <div className="flex-1">

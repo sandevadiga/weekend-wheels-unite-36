@@ -1,13 +1,24 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import { MapPin, Clock, Users, Calendar, Star } from "lucide-react";
+import { MapPin, Clock, Users, Calendar, Star, Plus } from "lucide-react";
 import GlobalHeader from "@/shared/components/layout/GlobalHeader";
 
 const MyRidesScreen = () => {
+  const navigate = useNavigate();
+
+  const handleCreateRide = () => {
+    navigate("/plan-ride");
+  };
+
+  const handleJoinRide = () => {
+    navigate("/join-ride");
+  };
+
   const upcomingRides = [
     {
       id: 1,
@@ -23,7 +34,7 @@ const MyRidesScreen = () => {
     {
       id: 2,
       title: "Coorg Coffee Trail",
-      date: "Sat, 5:30 AM", 
+      date: "Sat, 5:30 AM",
       distance: "120 km round trip",
       organizer: "Priya Singh",
       type: "Long",
@@ -49,7 +60,7 @@ const MyRidesScreen = () => {
       id: 4,
       title: "Morning Beach Drive",
       date: "Dec 17, 2023",
-      distance: "60 km round trip", 
+      distance: "60 km round trip",
       organizer: "Sneha Reddy",
       type: "Breakfast",
       joinedCount: 8,
@@ -144,7 +155,7 @@ const MyRidesScreen = () => {
   return (
     <div className="min-h-screen bg-gray-50 overflow-hidden">
       {/* Global Header */}
-      <GlobalHeader 
+      <GlobalHeader
         title="My Rides"
         subtitle="Track your riding adventures"
         showBack={true}
@@ -152,14 +163,14 @@ const MyRidesScreen = () => {
         notificationCount={3}
       />
 
-      <div className="p-3 overflow-hidden">
+      <div className="p-3 pb-32 overflow-hidden">
         <Tabs defaultValue="upcoming" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-4">
             <TabsTrigger value="upcoming" className="text-xs">Upcoming</TabsTrigger>
             <TabsTrigger value="past" className="text-xs">Past Rides</TabsTrigger>
             <TabsTrigger value="organized" className="text-xs">Organized</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="upcoming" className="space-y-4 mt-4">
             {upcomingRides.length > 0 ? (
               upcomingRides.map((ride) => (
@@ -176,13 +187,13 @@ const MyRidesScreen = () => {
               </Card>
             )}
           </TabsContent>
-          
+
           <TabsContent value="past" className="space-y-4 mt-4">
             {pastRides.map((ride) => (
               <RideCard key={ride.id} ride={ride} isPast={true} />
             ))}
           </TabsContent>
-          
+
           <TabsContent value="organized" className="space-y-4 mt-4">
             {organizedRides.length > 0 ? (
               organizedRides.map((ride) => (
@@ -200,6 +211,27 @@ const MyRidesScreen = () => {
             )}
           </TabsContent>
         </Tabs>
+      </div>
+
+      {/* Action Buttons - Fixed at bottom above tab bar */}
+      <div className="fixed bottom-20 left-0 right-0 p-4 bg-gradient-to-t from-white via-white to-transparent pointer-events-none z-50">
+        <div className="flex gap-2">
+          <Button
+            onClick={handleJoinRide}
+            variant="outline"
+            className="flex-1 bg-white hover:bg-gray-50 text-orange-600 border-orange-500 font-semibold py-6 rounded-xl shadow-lg flex items-center justify-center gap-2 pointer-events-auto"
+          >
+            <Users className="w-5 h-5" />
+            Join a Ride
+          </Button>
+          <Button
+            onClick={handleCreateRide}
+            className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-6 rounded-xl shadow-lg flex items-center justify-center gap-2 pointer-events-auto"
+          >
+            <Plus className="w-5 h-5" />
+            Create a Ride
+          </Button>
+        </div>
       </div>
     </div>
   );
